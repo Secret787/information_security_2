@@ -26,9 +26,15 @@ namespace information_security_2
         {
             InitializeComponent();
             RusProbilities();
+            EngProbilities();
+
         }
         public Dictionary<char, double> letterProbability = new();
+
+        public Dictionary<char, double> Probability = new();
         public Dictionary<char, double> RusProbability = new();
+        public Dictionary<char, double> EngProbability = new();
+
 
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
@@ -85,7 +91,7 @@ namespace information_security_2
             {
                 Char t = AllLeters[i];
                 if (str.IndexOf(t) != -1)
-                    x += (letterProbability[t] - RusProbability[t]) * (letterProbability[t] - RusProbability[t]) / RusProbability[t];
+                    x += (letterProbability[t] - Probability[t]) * (letterProbability[t] - Probability[t]) / Probability[t];
             }
 
             return x;
@@ -151,6 +157,7 @@ namespace information_security_2
 
         public void RusProbilities()
         {
+            Probability = RusProbability;
 
             RusProbability.Add('а', 8.04);
             RusProbability.Add('б', 1.55);
@@ -186,6 +193,36 @@ namespace information_security_2
             RusProbability.Add('я', 2.00);
 
 
+        }
+
+        public void EngProbilities()
+        {
+            EngProbability.Add('a', 8.55);
+            EngProbability.Add('b', 1.60);
+            EngProbability.Add('c', 3.16);
+            EngProbability.Add('d', 3.87);
+            EngProbability.Add('e', 12.10);
+            EngProbability.Add('f', 2.18);
+            EngProbability.Add('g', 2.09);
+            EngProbability.Add('h', 4.96);
+            EngProbability.Add('i', 7.33);
+            EngProbability.Add('j', 0.22);
+            EngProbability.Add('k', 0.81);
+            EngProbability.Add('l', 4.21);
+            EngProbability.Add('m', 2.53);
+            EngProbability.Add('n', 7.17);
+            EngProbability.Add('o', 7.47);
+            EngProbability.Add('p', 2.07);
+            EngProbability.Add('q', 0.10);
+            EngProbability.Add('r', 6.33);
+            EngProbability.Add('s', 6.73);
+            EngProbability.Add('t', 8.94);
+            EngProbability.Add('u', 2.68);
+            EngProbability.Add('v', 1.06);
+            EngProbability.Add('w', 1.83);
+            EngProbability.Add('x', 0.19);
+            EngProbability.Add('y', 1.72);
+            EngProbability.Add('z', 0.11);
         }
         private void Symbol_probabilities(string inputText)
         {
@@ -280,11 +317,13 @@ namespace information_security_2
             {
                 Lang.Content = "Язык: RUS";
                 AllLeters = RUSAllLeters;
+                Probability = RusProbability;
             }
             else
             {
                 Lang.Content = "Язык: ENG";
                 AllLeters = ENGAllLeters;
+                Probability = EngProbability;
             }
 
             count++;
