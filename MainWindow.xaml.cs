@@ -44,6 +44,7 @@ namespace information_security_2
             {
                 for (int i = 0; i <= 32; i++)
                 {
+                   
                     Data.Text += Unencrypt_func(EncryptText, i);
                     Data.Text += Environment.NewLine;
                 }
@@ -65,17 +66,33 @@ namespace information_security_2
             char[] c = Text.Text.ToCharArray();
             c = shift(c, -1 * s);
             string str = new string(c);
+            Symbol_probabilities(str);
+            double d = Math.Round(xi_sqeare(str),2);
+
             if (str.Length > 10)
                 str = str.Substring(0, 10);
 
-            return str + " -- " + s;
+
+            return str + "\t" + s + "\t" + d;
+        }
+
+        private double xi_sqeare(string str)
+        {
+            double x = 0;
+            for (int i = 0; i < 31; i++)
+            {
+                Char t = AllLeters[i];
+                if (str.IndexOf(t) != -1)
+                    x += (letterProbability[t] - RusProbability[t]) * (letterProbability[t] - RusProbability[t]) / RusProbability[t];
+            }
+
+            return x;
         }
 
         private char[] shift(char[] c, int s)
-        {
-
+        { 
             for (int i = 0; i < c.Length; i++)
-                if (!Check_Char(c[i]))
+                if (!Check_Char(c[i], AllLeters))
                     c[i] = Convert.ToChar(1072 + normalize_step(s, c[i])) ;
 
             return c;
@@ -89,21 +106,22 @@ namespace information_security_2
 
          
         
-        private bool Check_Char(char c)
+        private bool Check_Char(char c, string Leters)
         {
-            bool err = false;
-            string s = "!@#$%^&*();:?_+-=123456789/<>|\\.,`~[]{}";
+            bool err = true;
+            string s = Leters;
 
-            for (int i = 0; i < s.Length; i++)
-                if (c == s[i]) { err = true; break; }
+            if (s.IndexOf(c) != -1) { err = false; }
 
             return err;
 
         }
+
         private void Clear(TextBox sender)
         {
             sender.Text = string.Empty;
         }
+
         private bool Check_empty(TextBox sender)
         {
             bool err = true;
@@ -111,6 +129,7 @@ namespace information_security_2
             return err;
 
         }
+
         private bool Check_number(TextBox sender)
         {
             bool err = false;
