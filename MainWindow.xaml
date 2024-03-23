@@ -20,7 +20,7 @@
                     <TextBox x:Name="EncryptText"                             HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"   VerticalAlignment="Top" Width="217" />
                     <Label   Content="Введите текст"    HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"    VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
                     <Label   Content="Результат"        HorizontalAlignment="Left" Height="33"  Margin="291,54,0,0"   VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-                    <TextBox                            HorizontalAlignment="Left" Height="165" Margin="69,207,0,0"   VerticalAlignment="Top" Width="439" />
+                    <TextBox x:Name="Data"              HorizontalAlignment="Left" Height="165" Margin="69,207,0,0"   VerticalAlignment="Top" Width="439" />
 
                 </Grid>
             </TabItem>

@@ -23,7 +23,10 @@ namespace information_security_2
         public MainWindow()
         {
             InitializeComponent();
+            RusProbilities();
         }
+        public Dictionary<char, double> letterProbability = new();
+        public Dictionary<char, double> RusProbability = new();
 
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
@@ -35,9 +38,15 @@ namespace information_security_2
         }
         private void Decrypt_Click(object sender, RoutedEventArgs e)
         {
+            Clear(Data);
+
             if (Check_empty(EncryptText))
             {
-
+                for (int i = 0; i <= 32; i++)
+                {
+                    Data.Text += Unencrypt_func(EncryptText, i);
+                    Data.Text += Environment.NewLine;
+                }
             }
         }
 
@@ -46,33 +55,40 @@ namespace information_security_2
             char[] c = Text.Text.ToCharArray();
             int s = Convert.ToInt32(Step.Text);
 
-            if (s >= 32) { s -= 32; }
-
             c = shift(c, s);
 
             return new string(c);
         }
 
-        private string Unencrypt_func(TextBox Text, TextBox Step)
+        private string Unencrypt_func(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
-            int s = Convert.ToInt32(Step.Text);
+            c = shift(c, -1 * s);
+            string str = new string(c);
+            if (str.Length > 10)
+                str = str.Substring(0, 10);
 
-            if (s >= 32) { s -= 32; }
-
-            c = shift(c, s);
-
-            return new string(c);
+            return str + " -- " + s;
         }
 
         private char[] shift(char[] c, int s)
         {
+
             for (int i = 0; i < c.Length; i++)
                 if (!Check_Char(c[i]))
-                    c[i] = Convert.ToChar(c[i] + s);
+                    c[i] = Convert.ToChar(1072 + normalize_step(s, c[i])) ;
 
             return c;
         }
+        
+        private int normalize_step(int s, char c)
+        {
+            s = ((s + 32 * 100) % 32 + c - 1072) % 32;
+            return s;
+        }
+
+         
+        
         private bool Check_Char(char c)
         {
             bool err = false;
@@ -107,6 +123,65 @@ namespace information_security_2
 
         }
 
-       
+        public string AllLeters = "абвгдежзийклмнопрстуфхцшщъыьэюя";
+        public void RusProbilities()
+        {
+
+            RusProbability.Add('а', 8.04);
+            RusProbability.Add('б', 1.55);
+            RusProbability.Add('в', 4.75);
+            RusProbability.Add('г', 1.88);
+            RusProbability.Add('д', 2.95);
+            RusProbability.Add('е', 8.21);
+            RusProbability.Add('ж', 0.88);
+            RusProbability.Add('з', 1.61);
+            RusProbability.Add('и', 7.98);
+            RusProbability.Add('й', 1.36);
+            RusProbability.Add('к', 3.49);
+            RusProbability.Add('л', 4.32);
+            RusProbability.Add('м', 3.11);
+            RusProbability.Add('н', 6.72);
+            RusProbability.Add('о', 10.61);
+            RusProbability.Add('п', 2.82);
+            RusProbability.Add('р', 5.38);
+            RusProbability.Add('с', 5.71);
+            RusProbability.Add('т', 5.83);
+            RusProbability.Add('у', 2.28);
+            RusProbability.Add('ф', 0.41);
+            RusProbability.Add('х', 1.02);
+            RusProbability.Add('ц', 0.58);
+            RusProbability.Add('ч', 1.23);
+            RusProbability.Add('ш', 0.55);
+            RusProbability.Add('щ', 0.34);
+            RusProbability.Add('ъ', 0.03);
+            RusProbability.Add('ы', 1.91);
+            RusProbability.Add('ь', 1.39);
+            RusProbability.Add('э', 0.31);
+            RusProbability.Add('ю', 0.63);
+            RusProbability.Add('я', 2.00);
+
+
+        }
+        private void Symbol_probabilities(string inputText)
+        {
+            string s = inputText;
+            for (int i = 0; i < s.Length; i++)
+                if (AllLeters.IndexOf(s[i]) == -1)
+                {
+                    s = s.Remove(i, 1);
+                    i--;
+                }
+            letterProbability = new();
+            int totalCharacters = s.Length;
+
+            foreach (char character in s)
+            {
+                if (letterProbability.ContainsKey(character)) { letterProbability[character] += 1.0 / totalCharacters; }
+                else { letterProbability[character] = 1.0 / totalCharacters; }
+            }
+
+            letterProbability = letterProbability.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+        }
+      
     }
 }
