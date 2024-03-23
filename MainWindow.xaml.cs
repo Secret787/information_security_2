@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,7 +44,7 @@ namespace information_security_2
 
             if (Check_empty(EncryptText))
             {
-                for (int i = 0; i <= 32; i++)
+                for (int i = 0; i <= AllLeters.Length; i++)
                 {
                    
                     Data.Text += Unencrypt_func(EncryptText, i);
@@ -79,7 +81,7 @@ namespace information_security_2
         private double xi_sqeare(string str)
         {
             double x = 0;
-            for (int i = 0; i < 31; i++)
+            for (int i = 0; i < AllLeters.Length; i++)
             {
                 Char t = AllLeters[i];
                 if (str.IndexOf(t) != -1)
@@ -93,14 +95,14 @@ namespace information_security_2
         { 
             for (int i = 0; i < c.Length; i++)
                 if (!Check_Char(c[i], AllLeters))
-                    c[i] = Convert.ToChar(1072 + normalize_step(s, c[i])) ;
+                    c[i] = Convert.ToChar(AllLeters[0] + normalize_step(s, c[i])) ;
 
             return c;
         }
         
         private int normalize_step(int s, char c)
         {
-            s = ((s + 32 * 100) % 32 + c - 1072) % 32;
+            s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
         }
 
@@ -142,7 +144,11 @@ namespace information_security_2
 
         }
 
-        public string AllLeters = "абвгдежзийклмнопрстуфхцшщъыьэюя";
+        public string AllLeters =    "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+        public string RUSAllLeters = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+        public string ENGAllLeters = "abcdefghijklmnopqrstuvwxyz";
+
+
         public void RusProbilities()
         {
 
@@ -201,6 +207,87 @@ namespace information_security_2
 
             letterProbability = letterProbability.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
-      
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string filename = "";
+            // Configure save file dialog box
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.FileName = "Document"; // Default file name
+            dialog.DefaultExt = ".txt"; // Default file extension
+            dialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show save file dialog box
+            bool? result = dialog.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                filename = dialog.FileName;
+            }
+            if (filename != "")
+            {
+                StreamWriter f = new StreamWriter(filename, false);
+                f.WriteLine(UnencryptText.Text + "|" + Step.Text);
+                f.Close();
+            }
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            string filename = "";
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.FileName = "Data"; // Default file name
+            dialog.DefaultExt = ".txt"; // Default file extension
+            dialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                filename = dialog.FileName;
+            }
+            if (filename != "")
+            {
+                StreamReader f = new StreamReader(filename);
+                string first_line = f.ReadLine();
+                f.Close();
+                string pattern = @"[^|][|]\d+";
+                if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
+                {
+                    string[] s = first_line.Split('|');
+                    UnencryptText.Text = s[0];
+                    Step.Text = s[1];
+                }
+            }
+        }
+
+        private void ClearTextBox_Click(object sender, RoutedEventArgs e)
+        {
+            Clear(EncryptText);
+            Clear(UnencryptText);
+            Clear(Step);
+            Clear(Data);
+        }
+        int count = 1;
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            if (count%2 == 0) 
+            {
+                Lang.Content = "Язык: RUS";
+                AllLeters = RUSAllLeters;
+            }
+            else
+            {
+                Lang.Content = "Язык: ENG";
+                AllLeters = ENGAllLeters;
+            }
+
+            count++;
+        }
     }
 }

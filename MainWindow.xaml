@@ -10,17 +10,20 @@
         <TabControl>
             <TabItem Header="Caesar's Cipher">
                 <Grid Background="#FFE5E5E5">
-                    <Button  x:Name="Encrypt"      Content="Зашифровать"      HorizontalAlignment="Left" Height="33"  Margin="69,131,0,0"   VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
-                    <Button  x:Name="Decrypt"      Content="Расшифровать"     HorizontalAlignment="Left" Height="33"  Margin="180,131,0,0"  VerticalAlignment="Top" Width="106" Click="Decrypt_Click"/>
-                    <TextBox x:Name="Step"                                    HorizontalAlignment="Left" Height="33"  Margin="291,169,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Button  x:Name="SaveButton"   Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="69,169,0,0"   VerticalAlignment="Top" Width="106"/>
-                    <Button  x:Name="LoadButton"   Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="180,169,0,0"  VerticalAlignment="Top" Width="106"/>
-                    <Label   Content="Шаг"                                    HorizontalAlignment="Left" Height="33"  Margin="291,130,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-                    <TextBox x:Name="UnencryptText"                           HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"    VerticalAlignment="Top" Width="217" />
-                    <TextBox x:Name="EncryptText"                             HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"   VerticalAlignment="Top" Width="217" />
-                    <Label   Content="Введите текст"    HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"    VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-                    <Label   Content="Результат"        HorizontalAlignment="Left" Height="33"  Margin="291,54,0,0"   VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-                    <TextBox x:Name="Data"              HorizontalAlignment="Left" Height="165" Margin="69,207,0,0"   VerticalAlignment="Top" Width="439" />
+                    <Button  x:Name="Encrypt"       Content="Зашифровать"      HorizontalAlignment="Left" Height="33"  Margin="69,131,0,0"   VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
+                    <Button  x:Name="Decrypt"       Content="Расшифровать"     HorizontalAlignment="Left" Height="33"  Margin="180,131,0,0"  VerticalAlignment="Top" Width="106" Click="Decrypt_Click"/>
+                    <TextBox x:Name="Step"                                     HorizontalAlignment="Left" Height="33"  Margin="291,169,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button  x:Name="SaveButton"    Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="69,169,0,0"   VerticalAlignment="Top" Width="106" Click="SaveButton_Click"/>
+                    <Button  x:Name="LoadButton"    Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="180,169,0,0"  VerticalAlignment="Top" Width="106" Click="LoadButton_Click"/>
+                    <Label   Content="Шаг"                                     HorizontalAlignment="Left" Height="33"  Margin="291,130,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="UnencryptText"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"    VerticalAlignment="Top" Width="217" />
+                    <TextBox x:Name="EncryptText"                              HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"   VerticalAlignment="Top" Width="217" />
+                    <Button  x:Name="ClearTextBox"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"   VerticalAlignment="Top" Width="106" Click="ClearTextBox_Click" />
+                    <Button  x:Name="Language"      Content="Язык"             HorizontalAlignment="Left" Height="33"  Margin="180,207,0,0"  VerticalAlignment="Top" Width="106" Click="Language_Click" />
+                    <Label   x:Name="Lang"          Content="Язык : RUS"       HorizontalAlignment="Left" Height="33"  Margin="291,207,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <Label   Content="Введите текст"                           HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"    VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <Label   Content="Результат"                               HorizontalAlignment="Left" Height="33"  Margin="291,54,0,0"   VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="Data"                                     HorizontalAlignment="Left" Height="127" Margin="69,245,0,0"   VerticalAlignment="Top" Width="439" />
 
                 </Grid>
             </TabItem>
