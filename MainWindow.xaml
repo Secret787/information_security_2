@@ -27,7 +27,20 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem Header="Chiffre de Vigenère">
+                <Grid Background="#FFE5E5E5"/>
+                
+            </TabItem>
+            <TabItem Header="3">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="4">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="5">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="6">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
