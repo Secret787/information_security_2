@@ -97,16 +97,12 @@ namespace information_security_2
                 break;
 
                 case '2': // Vigenère lab 2
-                    Clear(Data);
+                    Clear(EncryptText);
 
-                    if (Check_empty(EncryptText))
+                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key), AllLeters))
                     {
-                        for (int i = 0; i <= AllLeters.Length; i++)
-                        {
 
-                            Data.Text += Unencrypt_func_Caesar_1(EncryptText, i);
-                            Data.Text += Environment.NewLine;
-                        }
+                        EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
                     }
                     break;
 
@@ -128,7 +124,6 @@ namespace information_security_2
 
             return new string(c);
         }
-
         private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key)
         {
             char[] t = Text.Text.ToCharArray();
@@ -159,7 +154,22 @@ namespace information_security_2
 
             return str + "\t" + s + "\t" + d;
         }
+        private string Unencrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        {
+            char[] t = Text.Text.ToCharArray();
+            char[] k = normalize_key(Text, Key).ToCharArray();
+            char[] result = new char[t.Length];
 
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                int first = Get_Char_Number(t[i], AllLeters);
+                int second = Get_Char_Number(k[i], AllLeters);
+                result[i] = AllLeters[(Math.Abs(first - second)) % AllLeters.Length];
+            }
+
+            return new string(result);
+        }
         private double xi_sqeare(string str)
         {
             double x = 0;
@@ -181,8 +191,7 @@ namespace information_security_2
 
             return c;
         }
-        
-        private int normalize_step(int s, char c)
+        private int    normalize_step(int s, char c)
         {
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
