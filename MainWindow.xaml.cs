@@ -114,7 +114,7 @@ namespace information_security_2
             }
             
         }
-
+         
         private string Encrypt_func_Caesar_1(TextBox Text, TextBox Step)
         {
             char[] c = Text.Text.ToCharArray();
