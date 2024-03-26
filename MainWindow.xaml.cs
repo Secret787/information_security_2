@@ -54,19 +54,16 @@ namespace information_security_2
                     }
                     break;
 
-                case '2': // Vigenère lab 2
-                    Clear(Data);
+                case '2': // Vigenere lab 2
+                    
+                    Clear(EncryptText);
 
-                    if (Check_empty(EncryptText))
+                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key),AllLeters))
                     {
-                        for (int i = 0; i <= AllLeters.Length; i++)
-                        {
-
-                            Data.Text += Unencrypt_func_Caesar_1(EncryptText, i);
-                            Data.Text += Environment.NewLine;
-                        }
+                        
+                        EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
                     }
-                    break;
+                break;
 
 
                 default:
@@ -132,6 +129,22 @@ namespace information_security_2
             return new string(c);
         }
 
+        private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        {
+            char[] t = Text.Text.ToCharArray();
+            char[] k = normalize_key(Text, Key).ToCharArray();
+            char[] result = new char[t.Length]; 
+
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                int first = Get_Char_Number(t[i], AllLeters);
+                int second = Get_Char_Number(k[i], AllLeters);
+                result[i] = AllLeters[(first + second)%AllLeters.Length];
+            }
+
+            return new string(result);
+        }
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
@@ -174,9 +187,45 @@ namespace information_security_2
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
         }
+        private string normalize_key(TextBox Text, TextBox key)
+        {
+            string tmp = string.Empty;
+            while (tmp.Length < Get_String(Text).Length)
+            {
+                tmp += Get_String(Key);
+            }
+            return new string(tmp);
+        }
 
-         
-        
+        private string Get_String(TextBox tb)
+        {
+            return tb.Text;
+        }
+
+        private bool Check_Str(string str, string Leters)
+        {
+            bool err = true;
+           
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (Check_Char(str[i], Leters)) { err = false; }
+            }
+            
+
+            return err;
+
+        }
+
+        private int Get_Char_Number(char c, string str)
+        {
+            return str.IndexOf(c);
+        }
+
+        private int Get_Number_Char(int i, string str)
+        {
+            return str[i];
+        }
+
         private bool Check_Char(char c, string Leters)
         {
             bool err = true;

@@ -34,6 +34,9 @@
                     <Button  x:Name="SaveButton2"    Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="69,169,0,0"   VerticalAlignment="Top" Width="106" Click="SaveButton_Click"/>
                     <Button  x:Name="LoadButton2"    Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="180,169,0,0"  VerticalAlignment="Top" Width="106" Click="LoadButton_Click"/>
                     <TextBox x:Name="UnencryptText2"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"    VerticalAlignment="Top" Width="217" />
+                    <Label   Content="Ключ"                                     HorizontalAlignment="Left" Height="33"  Margin="291,130,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="Key"                                     HorizontalAlignment="Left" Height="33"  Margin="291,169,0,0"  VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
                     <TextBox x:Name="EncryptText2"                              HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"   VerticalAlignment="Top" Width="217" />
                     <Button  x:Name="ClearTextBox2"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"   VerticalAlignment="Top" Width="106" Click="ClearTextBox_Click" />
                     <Button  x:Name="Language2"      Content="Язык"             HorizontalAlignment="Left" Height="33"  Margin="180,207,0,0"  VerticalAlignment="Top" Width="106" Click="Language_Click"/>
