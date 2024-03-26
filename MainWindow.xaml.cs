@@ -130,6 +130,7 @@ namespace information_security_2
             sender.Text = string.Empty;
         }
 
+
         private bool Check_empty(TextBox sender)
         {
             bool err = true;
