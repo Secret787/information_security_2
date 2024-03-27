@@ -41,6 +41,8 @@ namespace information_security_2
             string s = ((Button)sender).Name.ToString();
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
 
 
 
@@ -48,9 +50,9 @@ namespace information_security_2
             {
                 case '1': // cesar lab 1
                     Clear(EncryptText);
-                    if (Check_number(Step) && Check_empty(UnencryptText))
+                    if (Check_number(Key) && Check_empty(UnencryptText))
                     {
-                        EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Step);
+                        EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
                     }
                     break;
 
@@ -79,6 +81,8 @@ namespace information_security_2
             string s = ((Button)sender).Name.ToString();
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
 
             switch (s[s.Length-1])
             {
@@ -196,7 +200,7 @@ namespace information_security_2
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
         }
-        private string normalize_key(TextBox Text, TextBox key)
+        private string normalize_key(TextBox Text, TextBox Key)
         {
             string tmp = string.Empty;
             while (tmp.Length < Get_String(Text).Length)
@@ -373,6 +377,8 @@ namespace information_security_2
             string s = ((Button)sender).Name.ToString();
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
 
             string filename = "";
             // Configure save file dialog box
@@ -393,7 +399,7 @@ namespace information_security_2
             if (filename != "")
             {
                 StreamWriter f = new StreamWriter(filename, false);
-                f.WriteLine(UnencryptText.Text + "|" + Step.Text);
+                f.WriteLine(UnencryptText.Text + "|" + Key.Text);
                 f.Close();
             }
         }
@@ -403,6 +409,7 @@ namespace information_security_2
             string s = ((Button)sender).Name.ToString();
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
 
             string filename = "";
             var dialog = new Microsoft.Win32.OpenFileDialog();
@@ -429,7 +436,7 @@ namespace information_security_2
                 {
                     string[] str = first_line.Split('|');
                     UnencryptText.Text = str[0];
-                    Step.Text = str[1];
+                    Key.Text = str[1];
                 }
             }
         }
@@ -439,10 +446,12 @@ namespace information_security_2
             string s = ((Button)sender).Name.ToString();
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
 
             Clear(EncryptText);
             Clear(UnencryptText);
-            Clear(Step);
+            Clear(Key);
             Clear(Data);
         }
 
