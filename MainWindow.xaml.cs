@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -42,36 +43,39 @@ namespace information_security_2
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
             TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+            TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
 
 
 
-
-            switch (s[s.Length - 1])
+            Clear(EncryptText);
+            if (Check_empty(Key) && Check_empty(UnencryptText))
             {
-                case '1': // cesar lab 1
-                    Clear(EncryptText);
-                    if (Check_number(Key) && Check_empty(UnencryptText))
-                    {
-                        EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
-                    }
+
+                switch (s[s.Length - 1])
+                {
+                    case '1': // cesar lab 1
+
+                        if (Check_number(Key))
+                        {
+                            EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
+                        }
+
                     break;
 
-                case '2': // Vigenere lab 2
-                    
-                    Clear(EncryptText);
+                    case '2': // Vigenere lab 2
 
-                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key),AllLeters))
-                    {
-                        
                         EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
-                    }
-                break;
+                        break;
 
+                    case '3': // Vigenere lab 2
 
-                default:
+                        EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
+                        break;
 
-                break;
+                    default:
 
+                    break;
+                }
             }
 
            
@@ -82,6 +86,8 @@ namespace information_security_2
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
             TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+            TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
+
 
 
             switch (s[s.Length-1])
@@ -103,7 +109,7 @@ namespace information_security_2
                 case '2': // Vigenère lab 2
                     Clear(EncryptText);
 
-                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key), AllLeters))
+                    if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters))
                     {
 
                         EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
@@ -121,12 +127,13 @@ namespace information_security_2
           
         private string Encrypt_func_Caesar_1(TextBox Text, TextBox Step)
         {
-            char[] c = Text.Text.ToCharArray();
+
+            char[] t = Text.Text.ToCharArray();
             int s = Convert.ToInt32(Step.Text);
 
-            c = shift(c, s);
+            t = shift(t, s);
 
-            return new string(c);
+            return new string(t);
         }
         private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key)
         {
@@ -143,6 +150,43 @@ namespace information_security_2
             }
 
             return new string(result);
+        }
+
+        private string Encrypt_func_Bits_3(TextBox Text, TextBox Key, TextBox Data)
+        {
+            Clear(Data);
+
+            string s = "1111";
+
+            uint INITIAL_VALUE = 0b_s;
+
+            if (Key.Text.Length == 1)
+            {
+                char[] t = Text.Text.ToCharArray();
+                uint k = Convert_Str_bit(Key.Text[0], 2);
+
+                for (int i = 0; i < t.Length; i++)
+                {
+                    uint first = Convert_Str_bit(t[i], 2);
+                    uint second = k;
+
+                    uint result = first ^ second;
+
+                    Data.Text += Convert.ToString(first, 2);
+                    Data.Text += Environment.NewLine;
+
+                    Data.Text += Convert.ToString(second, 2);
+                    Data.Text += Environment.NewLine;
+
+                    Data.Text += Convert.ToString(result, 2);
+                    Data.Text += Environment.NewLine;
+
+                    //k = 123;
+
+                }
+            }
+
+            return "1";
         }
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
@@ -210,6 +254,13 @@ namespace information_security_2
             return new string(tmp);
         }
 
+
+        private uint cycle_shift(int c, int s)
+        {
+            c = (c >> s) | ((c << (8 - s)) & 255);
+            return 1;
+        }
+
         private string Get_String(TextBox tb)
         {
             return tb.Text;
@@ -229,6 +280,11 @@ namespace information_security_2
 
         }
 
+        private string Convert_Str_bit(char c, int n)
+        {
+            return Convert.ToString(Convert.ToInt32(c), n);
+        }
+        
         private int Get_Char_Number(char c, string str)
         {
             return str.IndexOf(c);
@@ -431,13 +487,13 @@ namespace information_security_2
                 StreamReader f = new StreamReader(filename);
                 string first_line = f.ReadLine();
                 f.Close();
-                string pattern = @"[^|][|]\d+";
-                if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
-                {
+                //string pattern = @"[^|][|]\d+";
+                //if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
+                //{
                     string[] str = first_line.Split('|');
                     UnencryptText.Text = str[0];
                     Key.Text = str[1];
-                }
+                //}
             }
         }
 
@@ -447,6 +503,8 @@ namespace information_security_2
             TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
             TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+            TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
+
 
 
             Clear(EncryptText);
@@ -457,6 +515,7 @@ namespace information_security_2
 
     
         int count = 1;
+
         private void Language_Click(object sender, RoutedEventArgs e)
         {
             string s = ((Button)sender).Name.ToString().Substring(0,4);
