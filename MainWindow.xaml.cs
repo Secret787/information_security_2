@@ -114,6 +114,16 @@ namespace information_security_2
 
                         EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
                     }
+                break;
+
+                case '3': // Bits 3
+                    Clear(EncryptText);
+
+                    if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters))
+                    {
+
+                        EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
+                    }
                     break;
 
 
@@ -156,37 +166,52 @@ namespace information_security_2
         {
             Clear(Data);
 
-            string s = "1111";
+         
+            string res = string.Empty;
 
-            uint INITIAL_VALUE = 0b_s;
 
             if (Key.Text.Length == 1)
             {
                 char[] t = Text.Text.ToCharArray();
-                uint k = Convert_Str_bit(Key.Text[0], 2);
+                string  k = Convert_Str_bit(Key.Text[0], 2);
+
+                short t3 = 3;
+                short t2 = 4;
+
+                short t5 = t2 ^ t3;
+               
+    
 
                 for (int i = 0; i < t.Length; i++)
                 {
-                    uint first = Convert_Str_bit(t[i], 2);
-                    uint second = k;
+                    string first = Convert_Str_bit(t[i], 2);
+                    string second = k;
 
-                    uint result = first ^ second;
+                    string result = sum_bit(first, second);
 
-                    Data.Text += Convert.ToString(first, 2);
+                    Data.Text += Convert.ToString(first);
+                    Data.Text += Environment.NewLine;
                     Data.Text += Environment.NewLine;
 
-                    Data.Text += Convert.ToString(second, 2);
+
+                    Data.Text += Convert.ToString(second);
+                    Data.Text += Environment.NewLine;
                     Data.Text += Environment.NewLine;
 
-                    Data.Text += Convert.ToString(result, 2);
+
+                    Data.Text += Convert.ToString(result);
                     Data.Text += Environment.NewLine;
+                    Data.Text += Environment.NewLine;
+
 
                     //k = 123;
+                    cycle_shift(k, 3);
 
+                    res += result;
                 }
             }
 
-            return "1";
+            return res;
         }
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
@@ -213,7 +238,7 @@ namespace information_security_2
             {
                 int first = Get_Char_Number(t[i], AllLeters);
                 int second = Get_Char_Number(k[i], AllLeters);
-                result[i] = AllLeters[(Math.Abs(first - second)) % AllLeters.Length];
+                result[i] = AllLeters[(Math.Abs(normalize_step_2(first - second))) % AllLeters.Length];
             }
 
             return new string(result);
@@ -244,6 +269,24 @@ namespace information_security_2
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
         }
+        private string sum_bit(string s1, string s2)
+        {
+            char[] r = s1.ToCharArray();
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i] == s2[i])
+                    r[i] = '0';
+                else
+                    r[i] = '1';
+
+            }
+            return new string(r);
+        }
+        private int normalize_step_2(int s)
+        {
+            s = (s + AllLeters.Length * 100) % AllLeters.Length;
+            return s;
+        }
         private string normalize_key(TextBox Text, TextBox Key)
         {
             string tmp = string.Empty;
@@ -255,10 +298,12 @@ namespace information_security_2
         }
 
 
-        private uint cycle_shift(int c, int s)
+        private string cycle_shift(string s, int c)
         {
-            c = (c >> s) | ((c << (8 - s)) & 255);
-            return 1;
+            string temp2 = s.Substring(s.Length - c, c);
+            string temp1 = s.Substring(0, s.Length - c);
+            
+            return new string(temp2 + temp1);
         }
 
         private string Get_String(TextBox tb)
@@ -284,7 +329,21 @@ namespace information_security_2
         {
             return Convert.ToString(Convert.ToInt32(c), n);
         }
-        
+        private double Convert_Str_num(string s)
+        {
+            double num = 0;
+            int t;
+            for (int i = s.Length-1; i >= 0; i-- )
+            {
+                if (s[i] == '0')
+                    t = 0;
+                else
+                    t = 1;
+                num += Math.Pow(2, s.Length -1 - i) * t;
+            }
+            return num;
+        }
+
         private int Get_Char_Number(char c, string str)
         {
             return str.IndexOf(c);
