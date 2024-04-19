@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace information_security_2
 {
@@ -68,7 +69,7 @@ namespace information_security_2
                         if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters))
                         {
 
-                            EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
+                            EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key , Data);
                         }
                        
                         break;
@@ -118,12 +119,12 @@ namespace information_security_2
                     if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters))
                     {
 
-                        EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
+                        EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key, Data);
                     }
                 break;
 
                 case '3': // Bits 3
-                    Clear(EncryptText);
+                   
                     Clear(Data);
 
                     if (Check_empty(UnencryptText) && Check_empty(Key))
@@ -152,7 +153,7 @@ namespace information_security_2
 
             return new string(t);
         }
-        private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key, TextBox Data)
         {
             char[] t = Text.Text.ToCharArray();
             char[] k = normalize_key(Text, Key).ToCharArray();
@@ -165,6 +166,12 @@ namespace information_security_2
                 int second = Get_Char_Number(k[i], AllLeters);
                 result[i] = AllLeters[(first + second)%AllLeters.Length];
             }
+
+
+            Data.Text += entropia(Text.Text);
+            Data.Text += "\n";
+            Data.Text += entropia(new string(result));
+
 
             return new string(result);
         }
@@ -211,6 +218,8 @@ namespace information_security_2
                     Data.Text += Convert.ToString(result) + " --- " + Convert.ToChar(Convert_Str_num(result)).ToString();
                     Data.Text += Environment.NewLine;
                     //  Data.Text += Environment.NewLine;
+                    Data.Text += Environment.NewLine;
+
 
                     //k = 123;
                     k = cycle_shift_r(k, 3);
@@ -235,7 +244,7 @@ namespace information_security_2
 
             return str + "\t" + s + "\t" + d;
         }
-        private string Unencrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        private string Unencrypt_func_Vigener_2(TextBox Text, TextBox Key, TextBox Data)
         {
             char[] t = Text.Text.ToCharArray();
             char[] k = normalize_key(Text, Key).ToCharArray();
@@ -248,6 +257,13 @@ namespace information_security_2
                 int second = Get_Char_Number(k[i], AllLeters);
                 result[i] = AllLeters[(Math.Abs(normalize_step_2(first - second))) % AllLeters.Length];
             }
+
+            Data.Text += entropia(Text.Text);
+            Data.Text += "\n";
+            Data.Text += entropia(new string(result));
+
+            Data.Text += Environment.NewLine;
+
 
             return new string(result);
         }
@@ -318,6 +334,20 @@ namespace information_security_2
             }
 
             return x;
+        }
+        private double entropia(string str)
+        {
+
+            Symbol_probabilities(str);
+            double x = 0;
+            for (int i = 0; i < AllLeters.Length; i++)
+            {
+                Char t = AllLeters[i];
+                if (str.IndexOf(t) != -1)
+                    x += (letterProbability[t] * Math.Log2(letterProbability[t]));
+            }
+
+            return -1 * x;
         }
         public static string ReverseString(string s)
         {
