@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -64,7 +65,12 @@ namespace information_security_2
 
                     case '2': // Vigenere lab 2
 
-                        EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
+                        if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters))
+                        {
+
+                            EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
+                        }
+                       
                         break;
 
                     case '3': // Vigenere lab 2
@@ -109,7 +115,7 @@ namespace information_security_2
                 case '2': // Vigenère lab 2
                     Clear(EncryptText);
 
-                    if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters))
+                    if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters))
                     {
 
                         EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
@@ -118,11 +124,12 @@ namespace information_security_2
 
                 case '3': // Bits 3
                     Clear(EncryptText);
+                    Clear(Data);
 
-                    if (Check_empty(UnencryptText) && Check_empty(Key) && Check_Str(Get_String(Key), AllLeters))
+                    if (Check_empty(UnencryptText) && Check_empty(Key))
                     {
 
-                        EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
+                        EncryptText.Text = Unencrypt_func_Bits_3(UnencryptText, Key, Data);
                     }
                     break;
 
@@ -161,7 +168,6 @@ namespace information_security_2
 
             return new string(result);
         }
-
         private string Encrypt_func_Bits_3(TextBox Text, TextBox Key, TextBox Data)
         {
             Clear(Data);
@@ -173,41 +179,43 @@ namespace information_security_2
             if (Key.Text.Length == 1)
             {
                 char[] t = Text.Text.ToCharArray();
-                string  k = Convert_Str_bit(Key.Text[0], 2);
+                string  k = Convert_num_str((int)Key.Text[0]).PadLeft(16, '0');
 
-                short t3 = 3;
-                short t2 = 4;
-
-                short t5 = t2 ^ t3;
-               
-    
-
+                
                 for (int i = 0; i < t.Length; i++)
                 {
-                    string first = Convert_Str_bit(t[i], 2);
+                    string first = Convert_num_str((int)t[i]).PadLeft(16, '0');
                     string second = k;
 
-                    string result = sum_bit(first, second);
+                    int one = Convert_Str_num(first);
+                    int two = Convert_Str_num(second);
 
-                    Data.Text += Convert.ToString(first);
-                    Data.Text += Environment.NewLine;
-                    Data.Text += Environment.NewLine;
+                    int r = one ^ two;
 
-
-                    Data.Text += Convert.ToString(second);
-                    Data.Text += Environment.NewLine;
-                    Data.Text += Environment.NewLine;
+                    string res2 = (Convert_num_str(r)).PadLeft(16,'0');
+                  
 
 
-                    Data.Text += Convert.ToString(result);
-                    Data.Text += Environment.NewLine;
-                    Data.Text += Environment.NewLine;
+                    string result = (sum_bit(first, second)).PadLeft(16, '0');
 
+                    Data.Text += Convert.ToString(first) + " --- " + Convert.ToChar(Convert_Str_num(first)).ToString();
+                    Data.Text += Environment.NewLine;
+                    // Data.Text += Environment.NewLine;
+
+
+                    Data.Text += Convert.ToString(second) + " --- " + Convert.ToChar(Convert_Str_num(second)).ToString();
+                    Data.Text += Environment.NewLine;
+                    // Data.Text += Environment.NewLine;
+
+
+                    Data.Text += Convert.ToString(result) + " --- " + Convert.ToChar(Convert_Str_num(result)).ToString();
+                    Data.Text += Environment.NewLine;
+                    //  Data.Text += Environment.NewLine;
 
                     //k = 123;
-                    cycle_shift(k, 3);
+                    k = cycle_shift_r(k, 3);
 
-                    res += result;
+                    res += Convert.ToChar(Convert_Str_num(result)).ToString();
                 }
             }
 
@@ -243,6 +251,62 @@ namespace information_security_2
 
             return new string(result);
         }
+        private string Unencrypt_func_Bits_3(TextBox Text, TextBox Key, TextBox Data)
+        {
+
+            Clear(Data);
+
+
+            string res = string.Empty;
+
+
+            if (Key.Text.Length == 1)
+            {
+                char[] t = Text.Text.ToCharArray();
+                string k = Convert_num_str((int)Key.Text[0]).PadLeft(16, '0');
+
+
+                for (int i = t.Length - 1; i >= 0; i--)
+                {
+                    string first = Convert_num_str((int)t[i]).PadLeft(16, '0');
+                    string second = k;
+                    k = cycle_shift_l(k, 3);
+
+                    int one = Convert_Str_num(first);
+                    int two = Convert_Str_num(second);
+           
+                    int r = one ^ two;
+
+                    string res2 = (Convert_num_str(r)).PadLeft(16, '0');
+
+
+
+                    string result = (sum_bit(first, second)).PadLeft(16, '0');
+
+                    Data.Text += Convert.ToString(first) + " --- " + Convert.ToChar(Convert_Str_num(first)).ToString();
+                    Data.Text += Environment.NewLine;
+                    // Data.Text += Environment.NewLine;
+
+
+                    Data.Text += Convert.ToString(second) + " --- " + Convert.ToChar(Convert_Str_num(second)).ToString();
+                    Data.Text += Environment.NewLine;
+                    // Data.Text += Environment.NewLine;
+
+
+                    Data.Text += Convert.ToString(result) + " --- " + Convert.ToChar(Convert_Str_num(result)).ToString();
+                    Data.Text += Environment.NewLine;
+                    //  Data.Text += Environment.NewLine;
+
+
+                    //k = 123;
+                    
+
+                    res += Convert.ToChar(Convert_Str_num(result)).ToString();
+                }
+            }
+
+            return ReverseString(res);
+        }
         private double xi_sqeare(string str)
         {
             double x = 0;
@@ -255,7 +319,12 @@ namespace information_security_2
 
             return x;
         }
-
+        public static string ReverseString(string s)
+        {
+            char[] arr = s.ToCharArray();
+            Array.Reverse(arr);
+            return new string(arr);
+        }
         private char[] shift(char[] c, int s)
         { 
             for (int i = 0; i < c.Length; i++)
@@ -296,21 +365,32 @@ namespace information_security_2
             }
             return new string(tmp);
         }
-
-
-        private string cycle_shift(string s, int c)
+        private string cycle_shift_r(string s, int c)
         {
-            string temp2 = s.Substring(s.Length - c, c);
-            string temp1 = s.Substring(0, s.Length - c);
-            
-            return new string(temp2 + temp1);
-        }
+            int number = Convert_Str_num(s);
+            int numBits = s.Length;
 
+            number &= (1 << numBits) - 1;
+            number = (number >> c) | (number << (numBits - c));
+
+            // Преобразование результата обратно в двоичную строку
+            return (Convert_num_str(number & ((1 << numBits) - 1))).PadLeft(numBits, '0');
+        }
+        private string cycle_shift_l(string s, int c)
+        {
+            int number = Convert_Str_num(s);
+            int numBits = s.Length;
+
+            number &= (1 << numBits) - 1;
+            number = (number << c) | (number >> (numBits - c));
+
+            // Преобразование результата обратно в двоичную строку
+            return (Convert_num_str(number & ((1 << numBits) - 1))).PadLeft(numBits, '0');
+        }
         private string Get_String(TextBox tb)
         {
             return tb.Text;
         }
-
         private bool Check_Str(string str, string Leters)
         {
             bool err = true;
@@ -325,11 +405,8 @@ namespace information_security_2
 
         }
 
-        private string Convert_Str_bit(char c, int n)
-        {
-            return Convert.ToString(Convert.ToInt32(c), n);
-        }
-        private double Convert_Str_num(string s)
+
+        private int Convert_Str_num(string s)
         {
             double num = 0;
             int t;
@@ -341,7 +418,14 @@ namespace information_security_2
                     t = 1;
                 num += Math.Pow(2, s.Length -1 - i) * t;
             }
-            return num;
+            return (int)num;
+        }
+
+        private string Convert_num_str(int n)
+        {
+            if (n == 0) return "0";
+            if (n == 1) return "1";
+            else        return Convert_num_str(n / 2) + (n % 2);
         }
 
         private int Get_Char_Number(char c, string str)
