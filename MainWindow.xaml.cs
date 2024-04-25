@@ -57,7 +57,7 @@ namespace information_security_2
                 {
                     case '1': // cesar lab 1
 
-                        if (Check_number(Key))
+                        if (Check_number(Key,0,50))
                         {
                             EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
                         }
@@ -74,9 +74,17 @@ namespace information_security_2
                        
                         break;
 
-                    case '3': // Vigenere lab 2
+                    case '3': // bits lab 3
 
                         EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
+                    break;
+
+                    case '4': // Euclidean algorithm lab4
+
+                        if (Check_number(Key, 1, 3))
+                        {
+                            EncryptText.Text = Encrypt_func_Euclidean_Algorithm_4(UnencryptText, Key, Data);
+                        }
                         break;
 
                     default:
@@ -230,6 +238,39 @@ namespace information_security_2
 
             return res;
         }
+
+        //Euclidean algorithm 
+        private string Encrypt_func_Euclidean_Algorithm_4(TextBox Text, TextBox Key, TextBox Data)
+        {
+
+            switch (Convert.ToInt32(Key.Text))
+            {
+                case '1': // cesar lab 1
+
+                        
+
+
+
+                break;
+
+                case '2': // Vigenere lab 2
+
+                  
+                break;
+
+                case '3': // bits lab 3
+
+                  
+                break;
+
+                default:
+
+                    break;
+            }
+
+            return "1";
+        }
+
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
@@ -323,6 +364,7 @@ namespace information_security_2
 
             return ReverseString(res);
         }
+
         private double xi_sqeare(string str)
         {
             double x = 0;
@@ -434,8 +476,6 @@ namespace information_security_2
             return err;
 
         }
-
-
         private int Convert_Str_num(string s)
         {
             double num = 0;
@@ -450,24 +490,16 @@ namespace information_security_2
             }
             return (int)num;
         }
-
         private string Convert_num_str(int n)
         {
             if (n == 0) return "0";
             if (n == 1) return "1";
             else        return Convert_num_str(n / 2) + (n % 2);
         }
-
         private int Get_Char_Number(char c, string str)
         {
             return str.IndexOf(c);
         }
-
-        private int Get_Number_Char(int i, string str)
-        {
-            return str[i];
-        }
-
         private bool Check_Char(char c, string Leters)
         {
             bool err = true;
@@ -478,13 +510,10 @@ namespace information_security_2
             return err;
 
         }
-
         private void Clear(TextBox sender)
         {
             sender.Text = string.Empty;
         }
-
-
         private bool Check_empty(TextBox sender)
         {
             bool err = true;
@@ -492,23 +521,47 @@ namespace information_security_2
             return err;
 
         }
-
-        private bool Check_number(TextBox sender)
+        private bool Check_number(TextBox sender, int up, int lover)
         {
             bool err = false;
             int step;
             if (int.TryParse(sender.Text, out step))
             {
-                if (step > 0 && step <= 50) { err = true; }
+                if (step > lover && step <= up) { err = true; }
             }
             return err;
 
         }
+        static int EuclideanAlgorithm(int m, int n)
+        {
+            int temp;
+            while (n != 0)
+            {
+                temp = n;
+                n = m % n;
+                m = temp;
+            }
+            return m;
+        }
+        static void ExtendedEuclideanAlgorithm(int a, int b, out int u1, out int u2, out int u3)
+        {
+            int v1 = 1, v2 = 0, v3 = a;
+            u1 = 0; u2 = 1; u3 = b;
+            while (v3 != 0)
+            {
+                int q = u3 / v3;
+                int t1 = u1 - v1 * q;
+                int t2 = u2 - v2 * q;
+                int t3 = u3 - v3 * q;
+                u1 = v1; u2 = v2; u3 = v3;
+                v1 = t1; v2 = t2; v3 = t3;
+            }
+        }
+
 
         public string AllLeters =    "абвгдежзийклмнопрстуфхцчшщъыьэюя";
         public string RUSAllLeters = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
         public string ENGAllLeters = "abcdefghijklmnopqrstuvwxyz";
-
 
         public void RusProbilities()
         {
@@ -549,7 +602,6 @@ namespace information_security_2
 
 
         }
-
         public void EngProbilities()
         {
             EngProbability.Add('a', 8.55);
@@ -579,7 +631,6 @@ namespace information_security_2
             EngProbability.Add('y', 1.72);
             EngProbability.Add('z', 0.11);
         }
-
         private void Symbol_probabilities(string inputText)
         {
             string s = inputText;
@@ -600,7 +651,6 @@ namespace information_security_2
 
             letterProbability = letterProbability.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             string s = ((Button)sender).Name.ToString();
@@ -632,7 +682,6 @@ namespace information_security_2
                 f.Close();
             }
         }
-
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             string s = ((Button)sender).Name.ToString();
@@ -669,7 +718,6 @@ namespace information_security_2
                 //}
             }
         }
-
         private void ClearTextBox_Click(object sender, RoutedEventArgs e)
         {
             string s = ((Button)sender).Name.ToString();
@@ -685,10 +733,7 @@ namespace information_security_2
             Clear(Key);
             Clear(Data);
         }
-
-    
         int count = 1;
-
         private void Language_Click(object sender, RoutedEventArgs e)
         {
             string s = ((Button)sender).Name.ToString().Substring(0,4);
