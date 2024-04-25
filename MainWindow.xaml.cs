@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -16,7 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+using System.Threading;
+
 
 namespace information_security_2
 {
@@ -244,45 +247,61 @@ namespace information_security_2
 
             return res;
         }
-
-        //Euclidean algorithm 
-        private void Encrypt_func_Euclidean_Algorithm_4(TextBox one, TextBox two, TextBox Key, TextBox Data)
+        private void   Encrypt_func_Euclidean_Algorithm_4(TextBox one, TextBox two, TextBox Key, TextBox Data)
         {
             int u1, u2, u3;
             int a = Convert.ToInt32(one.Text);
             int b = Convert.ToInt32(two.Text);
             int t = Convert.ToInt32(Key.Text);
+            Stopwatch stopwatch = new Stopwatch();
+
+            //System.Threading.Thread.Sleep(1000);
 
             switch (t)
             {
                 case 1: // 
-
+                    stopwatch.Start();
                     Data.Text = EuclideanAlgorithm(a, b).ToString();
+                    stopwatch.Stop();
 
-                break;
+
+                    break;
 
                 case 2: // 
-
+                    stopwatch.Start();
                     ExtendedEuclideanAlgorithm(a, b, out u1, out u2, out u3);
+                    stopwatch.Stop();
 
                     Data.Text = ($"a * u1 + b * u2 = НОД(a, b): {a} * {u1} + {b} * {u2} = {u3}");
+
 
                 break;
 
                 case 3: // 
+                    stopwatch.Start();
 
                     if (EuclideanAlgorithm(a, b) == 1)
                         Data.Text = ExtendedEuclideanAlgorithm_3(a, b).ToString();
+                        
                     else
                         Data.Text = "НОД(a,n) (наибольший общий делитель) должен быть равен 1";
+                    stopwatch.Stop();
                     break;
+
 
                 default:
 
                     break;
             }
+            System.Threading.Thread.Sleep(1);
+            Data.Text += Environment.NewLine;
+            TimeSpan ts = stopwatch.Elapsed;
+            string elapsedTime = String.Format("{0:f8}",
+            ts.TotalMilliseconds);
+            Data.Text += elapsedTime;
 
-            
+
+
         }
 
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
