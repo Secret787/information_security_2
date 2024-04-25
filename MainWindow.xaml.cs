@@ -49,7 +49,7 @@ namespace information_security_2
 
 
 
-            Clear(EncryptText);
+            
             if (Check_empty(Key) && Check_empty(UnencryptText))
             {
 
@@ -57,7 +57,7 @@ namespace information_security_2
                 {
                     case '1': // cesar lab 1
 
-                        if (Check_number(Key,0,50))
+                        if (Check_number(Key,1,50))
                         {
                             EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
                         }
@@ -81,9 +81,15 @@ namespace information_security_2
 
                     case '4': // Euclidean algorithm lab4
 
-                        if (Check_number(Key, 1, 3))
+                        bool b1 = Check_number(Key, 1, 3);
+                        bool b2 = Check_number(UnencryptText, 1, int.MaxValue);
+                        bool b3 = Check_number(EncryptText, 1, int.MaxValue);
+
+                        //if (Check_number(Key, 1, 3) && Check_number(UnencryptText, 1, int.MaxValue) && Check_number(EncryptText, 1, int.MaxValue))
+                        if (b1 && b2 && b3)
+
                         {
-                            EncryptText.Text = Encrypt_func_Euclidean_Algorithm_4(UnencryptText, Key, Data);
+                            Encrypt_func_Euclidean_Algorithm_4(UnencryptText, EncryptText, Key, Data);
                         }
                         break;
 
@@ -240,35 +246,43 @@ namespace information_security_2
         }
 
         //Euclidean algorithm 
-        private string Encrypt_func_Euclidean_Algorithm_4(TextBox Text, TextBox Key, TextBox Data)
+        private void Encrypt_func_Euclidean_Algorithm_4(TextBox one, TextBox two, TextBox Key, TextBox Data)
         {
+            int u1, u2, u3;
+            int a = Convert.ToInt32(one.Text);
+            int b = Convert.ToInt32(two.Text);
+            int t = Convert.ToInt32(Key.Text);
 
-            switch (Convert.ToInt32(Key.Text))
+            switch (t)
             {
-                case '1': // cesar lab 1
+                case 1: // 
 
-                        
-
-
+                    Data.Text = EuclideanAlgorithm(a, b).ToString();
 
                 break;
 
-                case '2': // Vigenere lab 2
+                case 2: // 
 
-                  
+                    ExtendedEuclideanAlgorithm(a, b, out u1, out u2, out u3);
+
+                    Data.Text = ($"a * u1 + b * u2 = НОД(a, b): {a} * {u1} + {b} * {u2} = {u3}");
+
                 break;
 
-                case '3': // bits lab 3
+                case 3: // 
 
-                  
-                break;
+                    if (EuclideanAlgorithm(a, b) == 1)
+                        Data.Text = ExtendedEuclideanAlgorithm_3(a, b).ToString();
+                    else
+                        Data.Text = "НОД(a,n) (наибольший общий делитель) должен быть равен 1";
+                    break;
 
                 default:
 
                     break;
             }
 
-            return "1";
+            
         }
 
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
@@ -521,13 +535,13 @@ namespace information_security_2
             return err;
 
         }
-        private bool Check_number(TextBox sender, int up, int lover)
+        private bool Check_number(TextBox sender, int lover, int up)
         {
             bool err = false;
             int step;
             if (int.TryParse(sender.Text, out step))
             {
-                if (step > lover && step <= up) { err = true; }
+                if (step >= lover && step <= up) { err = true; }
             }
             return err;
 
@@ -556,6 +570,21 @@ namespace information_security_2
                 u1 = v1; u2 = v2; u3 = v3;
                 v1 = t1; v2 = t2; v3 = t3;
             }
+        }
+        static int ExtendedEuclideanAlgorithm_3(int a, int n)
+        {
+            int u1 = 0, u2 = 1, u3 = n;
+            int v1 = 1, v2 = 0, v3 = a;
+            while (u3 != 1)
+            {
+                int q = u3 / v3;
+                int t1 = u1 - v1 * q;
+                int t2 = u2 - v2 * q;
+                int t3 = u3 - v3 * q;
+                u1 = v1; u2 = v2; u3 = v3;
+                v1 = t1; v2 = t2; v3 = t3;
+            }
+            return (u1 % n + n) % n;
         }
 
 
@@ -678,7 +707,7 @@ namespace information_security_2
             if (filename != "")
             {
                 StreamWriter f = new StreamWriter(filename, false);
-                f.WriteLine(UnencryptText.Text + "|" + Key.Text);
+                f.WriteLine(UnencryptText.Text + "|" + EncryptText.Text + "|" + Key.Text);
                 f.Close();
             }
         }
@@ -709,13 +738,15 @@ namespace information_security_2
                 StreamReader f = new StreamReader(filename);
                 string first_line = f.ReadLine();
                 f.Close();
-                //string pattern = @"[^|][|]\d+";
-                //if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
-                //{
+                string pattern = @".*[|].*[|].*";
+                if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
+                {
                     string[] str = first_line.Split('|');
                     UnencryptText.Text = str[0];
-                    Key.Text = str[1];
-                //}
+                    EncryptText.Text = str[1];
+
+                    Key.Text = str[2];
+                }
             }
         }
         private void ClearTextBox_Click(object sender, RoutedEventArgs e)

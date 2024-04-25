@@ -68,7 +68,8 @@
                     <Button  x:Name="Encrypt4"       Content="Зашифровать"      HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"   VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
                     <Button  x:Name="SaveButton4"    Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="180,207,0,0"   VerticalAlignment="Top" Width="106" Click="SaveButton_Click"/>
                     <Button  x:Name="LoadButton4"    Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="291,207,0,0"  VerticalAlignment="Top" Width="106" Click="LoadButton_Click"/>
-                    <TextBox x:Name="UnencryptText5"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"    VerticalAlignment="Top" Width="439" />
+                    <TextBox x:Name="EncryptText4"                              HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"   VerticalAlignment="Top" Width="217" />
+                    <TextBox x:Name="UnencryptText4"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"    VerticalAlignment="Top" Width="217" />
                     <Label   Content="Ключ(1,2,3)"                                     HorizontalAlignment="Left" Height="33"  Margin="69,130,0,0"  VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
                     <TextBox x:Name="Key4"                                     HorizontalAlignment="Left" Height="33"  Margin="69,169,0,0"  VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     <Button  x:Name="ClearTextBox4"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="402,207,0,0"   VerticalAlignment="Top" Width="106" Click="ClearTextBox_Click" />
