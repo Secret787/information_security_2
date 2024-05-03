@@ -62,7 +62,7 @@
                     <Label   Content="Результат"                               HorizontalAlignment="Left" Height="33"  Margin="291,54,0,0"   VerticalAlignment="Top" Width="217" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
                     <TextBox x:Name="Data3"                                     HorizontalAlignment="Left" Height="127" Margin="69,245,0,0"   VerticalAlignment="Top" Width="439" />
                 </Grid>
-            </TabItem>
+            </TabItem> 
             <TabItem Header="Euclidean algorithm">
                 <Grid Background="#FFE5E5E5">
                     <Button  x:Name="Encrypt4"       Content="Зашифровать"      HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"   VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
