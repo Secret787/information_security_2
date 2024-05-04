@@ -806,5 +806,45 @@ namespace information_security_2
 
             count++;
         }
+
+        private void Time_Click(object sender, RoutedEventArgs e)
+        {
+            string s = ((Button)sender).Name.ToString();
+            TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
+
+            Stopwatch stopwatch = new Stopwatch();
+            int count = 0;
+            int a = 0; int b = 0;
+            Data.Text = String.Empty;
+            while (count != 5)
+            {
+                Random r = new Random();
+
+                a = r.Next((int)Math.Pow(10, count), (int)Math.Pow(10, count + 1) - 1);
+                b = r.Next((int)Math.Pow(10, count), (int)Math.Pow(10, count + 1) - 1);
+
+                if (EuclideanAlgorithm(a, b) == 1)
+                {
+                    count++;
+                    stopwatch.Start();
+                    Data.Text += ExtendedEuclideanAlgorithm_3(a, b).ToString() + " otvet";
+                    stopwatch.Stop();
+                    Data.Text += Environment.NewLine;
+                    Data.Text += "a = "+ a + "  ---  "+ " b = " + b ;
+                    System.Threading.Thread.Sleep(1);
+                    Data.Text += Environment.NewLine;
+                    TimeSpan ts = stopwatch.Elapsed;
+                    string elapsedTime = String.Format("{0:f8}",
+                    ts.TotalMilliseconds);
+                    Data.Text += elapsedTime;
+                    Data.Text += Environment.NewLine;
+
+                }
+
+
+            }
+
+                
+        }
     }
 }
