@@ -78,8 +78,19 @@
                     <Button  x:Name="Time4"  Content="Тест"                      HorizontalAlignment="Left" Height="34"  Margin="291,130,0,0"   VerticalAlignment="Top" Width="217" Click="Time_Click"  />
                 </Grid>
             </TabItem>
-            <TabItem Header="5">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Generation of PSP">
+                <Grid Background="#FFE5E5E5">
+                    <Button  x:Name="Encrypt5"       Content="Сгенирировать"      HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"    VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
+                    <Button  x:Name="SaveButton5"    Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="180,207,0,0"   VerticalAlignment="Top" Width="106" Click="SaveButton_Click"/>
+                    <Button  x:Name="LoadButton5"    Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="291,207,0,0"   VerticalAlignment="Top" Width="106" Click="LoadButton_Click"/>
+                    <TextBox x:Name="EncryptText5"                              HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"    VerticalAlignment="Top" Width="217" />
+                    <TextBox x:Name="UnencryptText5"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"     VerticalAlignment="Top" Width="217" />
+                    <Label   Content="Количество итераций"                              HorizontalAlignment="Left" Height="33"  Margin="69,130,0,0"    VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="Key5"                                      HorizontalAlignment="Left" Height="33"  Margin="69,169,0,0"    VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button  x:Name="ClearTextBox5"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="402,207,0,0"   VerticalAlignment="Top" Width="106" Click="ClearTextBox_Click" />
+                    <Label   Content="Введите текст"                            HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"     VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="Data5"                                     HorizontalAlignment="Left" Height="228" Margin="69,250,0,0"    VerticalAlignment="Top" Width="439" />
+                </Grid>
             </TabItem>
             <TabItem Header="6">
                 <Grid Background="#FFE5E5E5"/>

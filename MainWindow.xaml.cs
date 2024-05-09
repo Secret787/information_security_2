@@ -53,14 +53,16 @@ namespace information_security_2
 
 
             
-            if (Check_empty(Key) && Check_empty(UnencryptText))
+            if (Check_empty(Key))
             {
+                bool b1, b2, b3;
+                b1 = Check_empty(UnencryptText);
 
                 switch (s[s.Length - 1])
                 {
                     case '1': // cesar lab 1
 
-                        if (Check_number(Key,1,50))
+                        if (Check_number(Key,1,50) && b1)
                         {
                             EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
                         }
@@ -69,7 +71,7 @@ namespace information_security_2
 
                     case '2': // Vigenere lab 2
 
-                        if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters))
+                        if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters) && b1)
                         {
 
                             EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key , Data);
@@ -78,21 +80,32 @@ namespace information_security_2
                         break;
 
                     case '3': // bits lab 3
-
-                        EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
+                        if (b1)
+                            EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
                     break;
 
                     case '4': // Euclidean algorithm lab4
+                        if (b1)
+                        {
+                            b1 = Check_number(Key, 1, 3);
+                            b2 = Check_number(UnencryptText, 1, int.MaxValue);
+                            b3 = Check_number(EncryptText, 1, int.MaxValue);
 
-                        bool b1 = Check_number(Key, 1, 3);
-                        bool b2 = Check_number(UnencryptText, 1, int.MaxValue);
-                        bool b3 = Check_number(EncryptText, 1, int.MaxValue);
+                            //if (Check_number(Key, 1, 3) && Check_number(UnencryptText, 1, int.MaxValue) && Check_number(EncryptText, 1, int.MaxValue))
+                            if (b1 && b2 && b3)
 
-                        //if (Check_number(Key, 1, 3) && Check_number(UnencryptText, 1, int.MaxValue) && Check_number(EncryptText, 1, int.MaxValue))
-                        if (b1 && b2 && b3)
+                            {
+                                Encrypt_func_Euclidean_Algorithm_4(UnencryptText, EncryptText, Key, Data);
+                            }
+                        }
+                        break;
+                    case '5': // PSP
+
+
+                        if (Check_number(Key, 1, 100000))
 
                         {
-                            Encrypt_func_Euclidean_Algorithm_4(UnencryptText, EncryptText, Key, Data);
+                            Encrypt_func_PSP_5(UnencryptText, EncryptText, Key, Data);
                         }
                         break;
 
@@ -303,7 +316,60 @@ namespace information_security_2
 
 
         }
+        private void   Encrypt_func_PSP_5(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
+        {
+            if (Input.Text == string.Empty || (Check_Str(Input.Text, "01") && Input.Text.Length == 32 ))
+            {
+                string s = String.Empty;
+                string[] arr = { "31", "29", "19", "2", "0" };
+                string bits = Input.Text;
 
+                if (Input.Text == string.Empty)
+                {
+                    bits = Generate_zero_one(32);
+                    Data.Text += bits + " Start BITS";
+                }
+                else
+                    Data.Text += bits + " Start BITS";
+
+                Data.Text += Environment.NewLine;
+
+
+                for (int j = 0; j < Convert.ToInt32(Key.Text); j++)
+                {
+                    s = sum_bit(bits[Convert.ToInt32(arr[0])].ToString(), bits[Convert.ToInt32(arr[1])].ToString());
+                    Data.Text += "b" + Convert.ToInt32(arr[0]) + " = " + bits[Convert.ToInt32(arr[0])].ToString();
+                    Data.Text += Environment.NewLine;
+                    Data.Text += "b" + Convert.ToInt32(arr[1]) + " = " + bits[Convert.ToInt32(arr[1])].ToString();
+                    Data.Text += Environment.NewLine;
+
+                    for (int i = 2; i < arr.Length; i++)
+                    {
+                        s = sum_bit(s, bits[Convert.ToInt32(arr[i])].ToString());
+                        Data.Text += "b" + Convert.ToInt32(arr[i]) + " = " + bits[Convert.ToInt32(arr[i])].ToString();
+                        Data.Text += Environment.NewLine;
+                    }
+
+                    Data.Text += s + " THIS SUM BITS";
+                    Data.Text += Environment.NewLine;
+
+                    cycle_shift_l(bits, 1);
+                    bits = bits.Remove(bits.Length - 1);
+                    bits += s;
+                    Data.Text += bits + " THIS NEW BITS" + " ITERATION " + j;
+                    Data.Text += Environment.NewLine;
+
+                }
+
+            }
+            else
+            {
+                Data.Text = "NOT OK";
+            }
+
+
+
+        }
         private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
@@ -604,6 +670,24 @@ namespace information_security_2
                 v1 = t1; v2 = t2; v3 = t3;
             }
             return (u1 % n + n) % n;
+        }
+
+        private string Generate_zero_one(int count)
+        {
+            Random r = new Random();
+            string s = String.Empty;
+            int k = 0;
+            for (int i = 0; i < count; i++)
+            {
+                k = r.Next(1,10000);
+                if (k > 5000)
+                    s += "1";
+                else
+                    s += "0";
+
+            }
+
+            return s;
         }
 
 
