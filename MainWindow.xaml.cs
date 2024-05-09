@@ -323,7 +323,7 @@ namespace information_security_2
                 string s = String.Empty;
                 string[] arr = { "31", "29", "19", "2", "0" };
                 string bits = Input.Text;
-
+                 
                 if (Input.Text == string.Empty)
                 {
                     bits = Generate_zero_one(32);
