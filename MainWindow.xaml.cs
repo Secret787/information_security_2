@@ -53,16 +53,16 @@ namespace information_security_2
 
 
             
-            if (Check_empty(Key))
-            {
+            
                 bool b1, b2, b3;
                 b1 = Check_empty(UnencryptText);
+                b2 = Check_empty(Key);
 
                 switch (s[s.Length - 1])
                 {
                     case '1': // cesar lab 1
 
-                        if (Check_number(Key,1,50) && b1)
+                        if (Check_number(Key,1,50) && b1 && b2)
                         {
                             EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
                         }
@@ -71,7 +71,7 @@ namespace information_security_2
 
                     case '2': // Vigenere lab 2
 
-                        if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters) && b1)
+                        if (Check_Str(Get_String(Key), AllLeters) && Check_Str(Get_String(UnencryptText), AllLeters) && b1 && b2)
                         {
 
                             EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key , Data);
@@ -80,12 +80,12 @@ namespace information_security_2
                         break;
 
                     case '3': // bits lab 3
-                        if (b1)
+                        if (b1 && b2)
                             EncryptText.Text = Encrypt_func_Bits_3(UnencryptText, Key, Data);
                     break;
 
                     case '4': // Euclidean algorithm lab4
-                        if (b1)
+                        if (b1 && b2)
                         {
                             b1 = Check_number(Key, 1, 3);
                             b2 = Check_number(UnencryptText, 1, int.MaxValue);
@@ -102,26 +102,23 @@ namespace information_security_2
                     case '5': // PSP
 
 
-                        if (Check_number(Key, 1, 100000))
+                        if (Check_number(Key, 1, 100000) && b2)
 
                         {
                             Encrypt_func_PSP_5(UnencryptText, EncryptText, Key, Data);
                         }
                         break;
                     case '6': // Prime numbers
-
-
-                        if (Check_number(Key, 1, 100000))
-
+                        if (b1 && b2)
                         {
-                            Encrypt_func_PSP_5(UnencryptText, EncryptText, Key, Data);
-                        }
+                            Encrypt_func_Prime_6(UnencryptText, EncryptText, Key, Data);
+                        }   
                         break;
 
                     default:
 
                     break;
-                }
+                
             }
 
            
@@ -375,11 +372,55 @@ namespace information_security_2
             {
                 Data.Text = "NOT OK";
             }
-
-
-
         }
-        private string Unencrypt_func_Caesar_1(TextBox Text, int s)
+        private void Encrypt_func_Prime_6(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
+        {
+            int Count_true = 0;
+            int Count_false = 0;
+            Random r = new Random();
+            int[] mas = { 2, 3, 5, 7, 11, 13 }; 
+            if (Check_number(Input,1,int.MaxValue) && Check_number(Key, 1, 10000))
+            {
+
+                int p = Convert.ToInt32(Input.Text);
+                int k = Convert.ToInt32(Key.Text);
+                if (p == 1 || p == 2 || p == 3)
+                {
+                    Data.Text += "Простое";
+                    Data.Text += Environment.NewLine;
+                }
+                else
+                {
+                    if (Check_Prime_Simple(p, mas))
+                    {
+                        for (int i = 0; i < k; i++)
+                        {
+                            int b = r.Next(2, p - 1);
+                            int z = ModPow(b, (p - 1) / 2, p);
+                            if (z == 1 || z == p - 1)
+                                Count_true++;
+                            else
+                                Count_false++;
+                        }
+
+                        if (Count_true == k)
+                            Data.Text += "Простое, Ответ не знаю был " + Count_true + " раз, Ответ составное был " + Count_false + " раз ";
+                        else
+                            Data.Text += "Cоставное, Ответ не знаю был " + Count_true + " раз, Ответ составное был " + Count_false + " раз ";
+
+                        Data.Text += Environment.NewLine;
+
+                    }
+                    else
+                    {
+                        Data.Text += "Составное";
+                        Data.Text += Environment.NewLine;
+                    }
+                }
+            }
+        }
+
+            private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
             c = shift(c, -1 * s);
@@ -680,7 +721,6 @@ namespace information_security_2
             }
             return (u1 % n + n) % n;
         }
-
         private string Generate_zero_one(int count)
         {
             Random r = new Random();
@@ -699,7 +739,38 @@ namespace information_security_2
             return s;
         }
 
+        private bool Check_Prime_Simple(int number, int[] mas)
+        {
+            bool err = true;
 
+            for (int i = 0; i < mas.Length; i++)
+            {
+                if (number%mas[i] == 0 && number != mas[i])
+                {
+                    err = false;
+                    break;
+                }
+            }
+
+            return err;
+        }
+
+        static int ModPow(int a, int b, int m)
+        {
+            if (b == 0)
+                return 1;
+
+            long result = 1;
+            long baseValue = a % m;
+            while (b > 0)
+            {
+                if (b % 2 == 1)
+                    result = (result * baseValue) % m;
+                baseValue = (baseValue * baseValue) % m;
+                b /= 2;
+            }
+            return (int)result;
+        }
         public string AllLeters =    "абвгдежзийклмнопрстуфхцчшщъыьэюя";
         public string RUSAllLeters = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
         public string ENGAllLeters = "abcdefghijklmnopqrstuvwxyz";
@@ -912,7 +983,7 @@ namespace information_security_2
             while (count != 5)
             {
                 Random r = new Random();
-
+               
                 a = r.Next((int)Math.Pow(10, count), (int)Math.Pow(10, count + 1) - 1);
                 b = r.Next((int)Math.Pow(10, count), (int)Math.Pow(10, count + 1) - 1);
 
@@ -938,6 +1009,49 @@ namespace information_security_2
             }
 
                 
+        }
+        private void Time_Click_2(object sender, RoutedEventArgs e)
+        {
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+            TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
+
+            Stopwatch stopwatch = new Stopwatch();
+            int count = 0;
+            int a = 0; int b = 0;
+            Data.Text = String.Empty;
+            if (Check_empty(Key))
+            {
+               
+                
+                while (count != 6)
+                {
+                    Random r = new Random();
+
+                    a = r.Next((int)Math.Pow(10, count), (int)Math.Pow(10, count + 1) - 1);
+                    UnencryptText.Text = a.ToString();
+                    Data.Text += "a = " + a;
+                    Data.Text += Environment.NewLine;
+                    stopwatch.Start();
+                    Encrypt_func_Prime_6(UnencryptText, EncryptText, Key, Data);
+                    stopwatch.Stop();
+               
+                    System.Threading.Thread.Sleep(1);
+                    TimeSpan ts = stopwatch.Elapsed;
+                    string elapsedTime = String.Format("{0:f8}",
+                    ts.TotalMilliseconds);
+                    Data.Text += elapsedTime;
+                    Data.Text += Environment.NewLine;
+                    count++;
+
+
+
+                }
+            }
+
+
         }
     }
 }
