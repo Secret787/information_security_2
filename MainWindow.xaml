@@ -92,7 +92,19 @@
                     <TextBox x:Name="Data5"                                     HorizontalAlignment="Left" Height="228" Margin="69,250,0,0"    VerticalAlignment="Top" Width="439" />
                 </Grid>
             </TabItem>
-            <TabItem Header="6">
+            <TabItem Header="Prime numbers">
+                <Grid Background="#FFE5E5E5">
+                    <Button  x:Name="Encrypt6"       Content="Проверить"      HorizontalAlignment="Left" Height="33"  Margin="69,207,0,0"    VerticalAlignment="Top" Width="106" Click="Encrypt_Click"/>
+                    <Button  x:Name="SaveButton6"    Content="Сохранить"        HorizontalAlignment="Left" Height="33"  Margin="180,207,0,0"   VerticalAlignment="Top" Width="106" Click="SaveButton_Click"/>
+                    <Button  x:Name="LoadButton6"    Content="Загрузить"        HorizontalAlignment="Left" Height="33"  Margin="291,207,0,0"   VerticalAlignment="Top" Width="106" Click="LoadButton_Click"/>
+                    <TextBox x:Name="EncryptText6"                              HorizontalAlignment="Left" Height="33"  Margin="291,92,0,0"    VerticalAlignment="Top" Width="217" />
+                    <TextBox x:Name="UnencryptText6"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"     VerticalAlignment="Top" Width="217" />
+                    <Button  x:Name="ClearTextBox6"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="402,207,0,0"   VerticalAlignment="Top" Width="106" Click="ClearTextBox_Click" />
+                    <Label   Content="Введите текст"                            HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"     VerticalAlignment="Top" Width="439" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                    <TextBox x:Name="Data6"                                     HorizontalAlignment="Left" Height="228" Margin="69,250,0,0"    VerticalAlignment="Top" Width="439" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="7">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>

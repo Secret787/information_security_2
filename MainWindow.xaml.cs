@@ -108,6 +108,15 @@ namespace information_security_2
                             Encrypt_func_PSP_5(UnencryptText, EncryptText, Key, Data);
                         }
                         break;
+                    case '6': // Prime numbers
+
+
+                        if (Check_number(Key, 1, 100000))
+
+                        {
+                            Encrypt_func_PSP_5(UnencryptText, EncryptText, Key, Data);
+                        }
+                        break;
 
                     default:
 
