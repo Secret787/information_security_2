@@ -17,8 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics;
 using System.Threading;
+using System.Numerics;
 
 
 namespace information_security_2
@@ -33,8 +33,17 @@ namespace information_security_2
             InitializeComponent();
             RusProbilities();
             EngProbilities();
+         
+
+
+
 
         }
+        User_A User_A_Start = new User_A();
+        User_B User_B_Start = new User_B();
+
+        public bool window = true;
+       
 
         public Dictionary<char, double> letterProbability = new();
         public Dictionary<char, double> Probability = new();
@@ -114,8 +123,13 @@ namespace information_security_2
                             Encrypt_func_Prime_6(UnencryptText, EncryptText, Key, Data);
                         }   
                         break;
+                    case '7': // DiffieHellman
+                   
+                            Encrypt_func_DiffieHellman_7(UnencryptText, EncryptText, Key, Data);
+                    
+                        break;
 
-                    default:
+                default:
 
                     break;
                 
@@ -373,7 +387,7 @@ namespace information_security_2
                 Data.Text = "NOT OK";
             }
         }
-        private void Encrypt_func_Prime_6(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
+        private void   Encrypt_func_Prime_6(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
         {
             int Count_true = 0;
             int Count_false = 0;
@@ -419,8 +433,32 @@ namespace information_security_2
                 }
             }
         }
+        private void Encrypt_func_DiffieHellman_7(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
+        {
 
-            private string Unencrypt_func_Caesar_1(TextBox Text, int s)
+            Random r = new Random();
+            
+            ulong t = (ulong)r.NextInt64(0, int.MaxValue);
+
+            while (!(IsPrime(t) && IsPrime((t - 1) / 2))) 
+            {
+                t = (ulong)r.NextInt64(0, int.MaxValue);
+            }
+            Input.Text = t.ToString();
+            
+            t = (ulong)r.NextInt64(0, Convert.ToInt32(Input.Text)-1);
+
+            while (!IsPrime(t))
+            {
+                t = (ulong)r.NextInt64(0, Convert.ToInt32(Input.Text) - 1);
+            }
+
+            OutPut.Text = t.ToString();
+
+            
+        }
+
+        private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
             c = shift(c, -1 * s);
@@ -755,7 +793,7 @@ namespace information_security_2
             return err;
         }
 
-        static int ModPow(int a, int b, int m)
+        public static int ModPow(int a, int b, int m)
         {
             if (b == 0)
                 return 1;
@@ -946,6 +984,7 @@ namespace information_security_2
             Clear(UnencryptText);
             Clear(Key);
             Clear(Data);
+            window = true;
         }
         int count = 1;
         private void Language_Click(object sender, RoutedEventArgs e)
@@ -1008,7 +1047,7 @@ namespace information_security_2
 
             }
 
-                
+
         }
         private void Time_Click_2(object sender, RoutedEventArgs e)
         {
@@ -1024,8 +1063,8 @@ namespace information_security_2
             Data.Text = String.Empty;
             if (Check_empty(Key))
             {
-               
-                
+
+
                 while (count != 6)
                 {
                     Random r = new Random();
@@ -1037,7 +1076,7 @@ namespace information_security_2
                     stopwatch.Start();
                     Encrypt_func_Prime_6(UnencryptText, EncryptText, Key, Data);
                     stopwatch.Stop();
-               
+
                     System.Threading.Thread.Sleep(1);
                     TimeSpan ts = stopwatch.Elapsed;
                     string elapsedTime = String.Format("{0:f8}",
@@ -1050,8 +1089,55 @@ namespace information_security_2
 
                 }
             }
+        }
+
+        public void Create_Users_Click(object sender, RoutedEventArgs e)
+        {
+            bool b1 = Check_number(UnencryptText7, 1, int.MaxValue);
+            bool b2 = Check_number(EncryptText7, 1, int.MaxValue);
+            bool b3 = false;
+            if (b1 && b2)
+                b3 = Convert.ToInt64(UnencryptText7.Text) > Convert.ToInt64(EncryptText7.Text);
+
+            if (window && b1 && b2 && b3)
+            {
+                User_A User_1 = new User_A();
+                User_B User_2 = new User_B();
+                User_1.Show();
+                User_2.Show();
+                User_1.p = Convert.ToInt32(UnencryptText7.Text);
+                User_1.g = Convert.ToInt32(EncryptText7.Text);
+                User_2.p = Convert.ToInt32(UnencryptText7.Text);
+                User_2.g = Convert.ToInt32(EncryptText7.Text);
+
+                User_1.User_B = User_2;
+                User_2.User_A = User_1;
+                window = false;
+            }
+           
+
+           
 
 
+
+
+        }
+        static bool IsPrime(ulong number)
+        {
+            if (number <= 1)
+                return false;
+            if (number <= 3)
+                return true;
+            if (number % 2 == 0 || number % 3 == 0)
+                return false;
+
+            for (ulong i = 5; i * i <= number; i += 6)
+            {
+                if (number % i == 0 || number % (i + 2) == 0)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

@@ -107,8 +107,20 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="7">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="DiffieHellman">
+                <Grid Background="#FFE5E5E5">
+                    <Button  x:Name="Encrypt7"       Content="Cгенирировать p и g"      HorizontalAlignment="Left" Height="33"  Margin="69,55,0,0"    VerticalAlignment="Top" Width="160" Click="Encrypt_Click"/>
+                    <Button  x:Name="Create_Users"       Content="Создать A B"      HorizontalAlignment="Left" Height="34"  Margin="399,131,0,0"    VerticalAlignment="Top" Width="160" Click="Create_Users_Click" />
+
+                    <TextBox x:Name="EncryptText7"                              HorizontalAlignment="Left" Height="34"  Margin="234,130,0,0"    VerticalAlignment="Top" Width="160" />
+                    <TextBox x:Name="UnencryptText7"                            HorizontalAlignment="Left" Height="33"  Margin="69,131,0,0"     VerticalAlignment="Top" Width="160" />
+                    <Button  x:Name="ClearTextBox7"  Content="Очистить"         HorizontalAlignment="Left" Height="33"  Margin="564,132,0,0"   VerticalAlignment="Top" Width="160" Click="ClearTextBox_Click" />
+                    <Label   Content="Сгенирированое p"                            HorizontalAlignment="Left" Height="33"  Margin="69,93,0,0"     VerticalAlignment="Top" Width="160" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+                    <Label   Content="Сгенирированое g"                            HorizontalAlignment="Left" Height="33"  Margin="234,93,0,0"     VerticalAlignment="Top" Width="160" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+                    <TextBox x:Name="Key7"                                      HorizontalAlignment="Left" Height="1"  Margin="564,55,0,0"    VerticalAlignment="Top" Width="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="Data7"                                     HorizontalAlignment="Left" Height="1" Margin="69,250,0,0"    VerticalAlignment="Top" Width="1" />
+
+                </Grid>
             </TabItem>
         </TabControl>
 

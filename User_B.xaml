@@ -1,0 +1,18 @@
+﻿<Window x:Class="information_security_2.User_B"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:information_security_2"
+        mc:Ignorable="d"
+        Title="User_B" Height="450" Width="400">
+    <Grid>
+        <Button  x:Name="B1"       Content="Cгенирировать открытый ключ"        HorizontalAlignment="Left" Height="33"  Margin="10,63,0,0"     VerticalAlignment="Top" Width="190" Click="Gen_Key_Click"/>
+        <TextBox x:Name="B3"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,62,0,0"    VerticalAlignment="Top" Width="185"/>
+        <Button  x:Name="B2"       Content="Передать"                           HorizontalAlignment="Left" Height="33"  Margin="10,101,0,0"    VerticalAlignment="Top" Width="190" Click="B2_Click"/>
+        <TextBox x:Name="B4"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,101,0,0"    VerticalAlignment="Top" Width="185"/>
+        <Button  x:Name="B5"       Content="Проверить"                          HorizontalAlignment="Left" Height="33"  Margin="10,141,0,0"     VerticalAlignment="Top" Width="190" Click="B5_Click"/>
+        <TextBox x:Name="B6"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,140,0,0"    VerticalAlignment="Top" Width="185"/>
+
+    </Grid>
+</Window>
