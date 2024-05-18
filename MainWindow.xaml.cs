@@ -58,7 +58,7 @@ namespace information_security_2
             TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
             TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
             TextBox Data = (TextBox)FindName("Data" + s[s.Length - 1]);
-
+           
 
 
             
@@ -338,12 +338,17 @@ namespace information_security_2
         }
         private void   Encrypt_func_PSP_5(TextBox Input, TextBox OutPut, TextBox Key, TextBox Data)
         {
+
             if (Input.Text == string.Empty || (Check_Str(Input.Text, "01") && Input.Text.Length == 32 ))
             {
+                Clear(Data);
+
+                OutPut.Text = string.Empty;
                 string s = String.Empty;
                 string[] arr = { "31", "29", "19", "2", "0" };
                 string bits = Input.Text;
-                 
+
+
                 if (Input.Text == string.Empty)
                 {
                     bits = Generate_zero_one(32);
@@ -353,32 +358,37 @@ namespace information_security_2
                     Data.Text += bits + " Start BITS";
 
                 Data.Text += Environment.NewLine;
-
+                 
 
                 for (int j = 0; j < Convert.ToInt32(Key.Text); j++)
                 {
                     s = sum_bit(bits[Convert.ToInt32(arr[0])].ToString(), bits[Convert.ToInt32(arr[1])].ToString());
-                    Data.Text += "b" + Convert.ToInt32(arr[0]) + " = " + bits[Convert.ToInt32(arr[0])].ToString();
-                    Data.Text += Environment.NewLine;
-                    Data.Text += "b" + Convert.ToInt32(arr[1]) + " = " + bits[Convert.ToInt32(arr[1])].ToString();
-                    Data.Text += Environment.NewLine;
+                    //Data.Text += "b" + Convert.ToInt32(arr[0]) + " = " + bits[Convert.ToInt32(arr[0])].ToString();
+                    //Data.Text += Environment.NewLine;
+                    //Data.Text += "b" + Convert.ToInt32(arr[1]) + " = " + bits[Convert.ToInt32(arr[1])].ToString();
+                    //Data.Text += Environment.NewLine;
 
                     for (int i = 2; i < arr.Length; i++)
                     {
                         s = sum_bit(s, bits[Convert.ToInt32(arr[i])].ToString());
-                        Data.Text += "b" + Convert.ToInt32(arr[i]) + " = " + bits[Convert.ToInt32(arr[i])].ToString();
-                        Data.Text += Environment.NewLine;
+                    //    Data.Text += "b" + Convert.ToInt32(arr[i]) + " = " + bits[Convert.ToInt32(arr[i])].ToString();
+                    //    Data.Text += Environment.NewLine;
                     }
 
-                    Data.Text += s + " THIS SUM BITS";
+                    //Data.Text += s + " THIS SUM BITS";
                     Data.Text += Environment.NewLine;
 
-                    cycle_shift_l(bits, 1);
-                    bits = bits.Remove(bits.Length - 1);
+                    bits = bits.Remove(0,1);
+                    //bits = bits.Remove(bits.Length - 1);
                     bits += s;
+                    if (Input.Text == bits.ToString())
+                    {
+                        OutPut.Text += "POVTOR " + j;
+                        OutPut.Text += Environment.NewLine;
+                    }
                     Data.Text += bits + " THIS NEW BITS" + " ITERATION " + j;
                     Data.Text += Environment.NewLine;
-
+                  
                 }
 
             }
@@ -1139,5 +1149,7 @@ namespace information_security_2
 
             return true;
         }
+
+      
     }
 }
