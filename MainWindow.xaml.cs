@@ -29,8 +29,8 @@ namespace information_security_2
             EngProbilities();
 
         }
-        public Dictionary<char, double> letterProbability = new();
 
+        public Dictionary<char, double> letterProbability = new();
         public Dictionary<char, double> Probability = new();
         public Dictionary<char, double> RusProbability = new();
         public Dictionary<char, double> EngProbability = new();
@@ -38,28 +38,88 @@ namespace information_security_2
 
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
-            Clear(EncryptText);
-            if (Check_number(Step) && Check_empty(UnencryptText))
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
+
+
+
+            switch (s[s.Length - 1])
             {
-                EncryptText.Text = Encrypt_func(UnencryptText, Step);
+                case '1': // cesar lab 1
+                    Clear(EncryptText);
+                    if (Check_number(Key) && Check_empty(UnencryptText))
+                    {
+                        EncryptText.Text = Encrypt_func_Caesar_1(UnencryptText, Key);
+                    }
+                    break;
+
+                case '2': // Vigenere lab 2
+                    
+                    Clear(EncryptText);
+
+                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key),AllLeters))
+                    {
+                        
+                        EncryptText.Text = Encrypt_func_Vigener_2(UnencryptText, Key);
+                    }
+                break;
+
+
+                default:
+
+                break;
+
             }
+
+           
         }
         private void Decrypt_Click(object sender, RoutedEventArgs e)
         {
-            Clear(Data);
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
 
-            if (Check_empty(EncryptText))
+
+            switch (s[s.Length-1])
             {
-                for (int i = 0; i <= AllLeters.Length; i++)
-                {
-                   
-                    Data.Text += Unencrypt_func(EncryptText, i);
-                    Data.Text += Environment.NewLine;
-                }
-            }
-        }
+                case '1': // cesar lab 1
+                    Clear(Data);
 
-        private string Encrypt_func(TextBox Text, TextBox Step)
+                    if (Check_empty(EncryptText))
+                    {
+                        for (int i = 0; i <= AllLeters.Length; i++)
+                        {
+
+                            Data.Text += Unencrypt_func_Caesar_1(EncryptText, i);
+                            Data.Text += Environment.NewLine;
+                        }
+                    }
+                break;
+
+                case '2': // Vigenère lab 2
+                    Clear(EncryptText);
+
+                    if (Check_empty(UnencryptText) && Check_Str(Get_String(Key), AllLeters))
+                    {
+
+                        EncryptText.Text = Unencrypt_func_Vigener_2(UnencryptText, Key);
+                    }
+                    break;
+
+
+                default:
+                    
+                break;
+
+            }
+            
+        }
+          
+        private string Encrypt_func_Caesar_1(TextBox Text, TextBox Step)
         {
             char[] c = Text.Text.ToCharArray();
             int s = Convert.ToInt32(Step.Text);
@@ -68,8 +128,23 @@ namespace information_security_2
 
             return new string(c);
         }
+        private string Encrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        {
+            char[] t = Text.Text.ToCharArray();
+            char[] k = normalize_key(Text, Key).ToCharArray();
+            char[] result = new char[t.Length]; 
 
-        private string Unencrypt_func(TextBox Text, int s)
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                int first = Get_Char_Number(t[i], AllLeters);
+                int second = Get_Char_Number(k[i], AllLeters);
+                result[i] = AllLeters[(first + second)%AllLeters.Length];
+            }
+
+            return new string(result);
+        }
+        private string Unencrypt_func_Caesar_1(TextBox Text, int s)
         {
             char[] c = Text.Text.ToCharArray();
             c = shift(c, -1 * s);
@@ -83,7 +158,22 @@ namespace information_security_2
 
             return str + "\t" + s + "\t" + d;
         }
+        private string Unencrypt_func_Vigener_2(TextBox Text, TextBox Key)
+        {
+            char[] t = Text.Text.ToCharArray();
+            char[] k = normalize_key(Text, Key).ToCharArray();
+            char[] result = new char[t.Length];
 
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                int first = Get_Char_Number(t[i], AllLeters);
+                int second = Get_Char_Number(k[i], AllLeters);
+                result[i] = AllLeters[(Math.Abs(first - second)) % AllLeters.Length];
+            }
+
+            return new string(result);
+        }
         private double xi_sqeare(string str)
         {
             double x = 0;
@@ -105,15 +195,50 @@ namespace information_security_2
 
             return c;
         }
-        
-        private int normalize_step(int s, char c)
+        private int    normalize_step(int s, char c)
         {
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
         }
+        private string normalize_key(TextBox Text, TextBox Key)
+        {
+            string tmp = string.Empty;
+            while (tmp.Length < Get_String(Text).Length)
+            {
+                tmp += Get_String(Key);
+            }
+            return new string(tmp);
+        }
 
-         
-        
+        private string Get_String(TextBox tb)
+        {
+            return tb.Text;
+        }
+
+        private bool Check_Str(string str, string Leters)
+        {
+            bool err = true;
+           
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (Check_Char(str[i], Leters)) { err = false; }
+            }
+            
+
+            return err;
+
+        }
+
+        private int Get_Char_Number(char c, string str)
+        {
+            return str.IndexOf(c);
+        }
+
+        private int Get_Number_Char(int i, string str)
+        {
+            return str[i];
+        }
+
         private bool Check_Char(char c, string Leters)
         {
             bool err = true;
@@ -129,6 +254,7 @@ namespace information_security_2
         {
             sender.Text = string.Empty;
         }
+
 
         private bool Check_empty(TextBox sender)
         {
@@ -224,6 +350,7 @@ namespace information_security_2
             EngProbability.Add('y', 1.72);
             EngProbability.Add('z', 0.11);
         }
+
         private void Symbol_probabilities(string inputText)
         {
             string s = inputText;
@@ -247,6 +374,12 @@ namespace information_security_2
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
+
             string filename = "";
             // Configure save file dialog box
             var dialog = new Microsoft.Win32.SaveFileDialog();
@@ -266,13 +399,18 @@ namespace information_security_2
             if (filename != "")
             {
                 StreamWriter f = new StreamWriter(filename, false);
-                f.WriteLine(UnencryptText.Text + "|" + Step.Text);
+                f.WriteLine(UnencryptText.Text + "|" + Key.Text);
                 f.Close();
             }
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
             string filename = "";
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "Data"; // Default file name
@@ -296,32 +434,45 @@ namespace information_security_2
                 string pattern = @"[^|][|]\d+";
                 if (Regex.IsMatch(first_line, pattern, RegexOptions.IgnoreCase))
                 {
-                    string[] s = first_line.Split('|');
-                    UnencryptText.Text = s[0];
-                    Step.Text = s[1];
+                    string[] str = first_line.Split('|');
+                    UnencryptText.Text = str[0];
+                    Key.Text = str[1];
                 }
             }
         }
 
         private void ClearTextBox_Click(object sender, RoutedEventArgs e)
         {
+            string s = ((Button)sender).Name.ToString();
+            TextBox EncryptText = (TextBox)FindName("EncryptText" + s[s.Length - 1]);
+            TextBox UnencryptText = (TextBox)FindName("UnencryptText" + s[s.Length - 1]);
+            TextBox Key = (TextBox)FindName("Key" + s[s.Length - 1]);
+
+
             Clear(EncryptText);
             Clear(UnencryptText);
-            Clear(Step);
+            Clear(Key);
             Clear(Data);
         }
+
+    
         int count = 1;
         private void Language_Click(object sender, RoutedEventArgs e)
         {
+            string s = ((Button)sender).Name.ToString().Substring(0,4);
+
+
             if (count%2 == 0) 
             {
-                Lang.Content = "Язык: RUS";
+                for (int i = 1; i <3; i++ ) { ((Label)FindName(s + i)).Content = "Язык: RUS"; }
+
                 AllLeters = RUSAllLeters;
                 Probability = RusProbability;
             }
             else
             {
-                Lang.Content = "Язык: ENG";
+                for (int i = 1; i < 3; i++) { ((Label)FindName(s + i)).Content = "Язык: ENG"; }
+
                 AllLeters = ENGAllLeters;
                 Probability = EngProbability;
             }
