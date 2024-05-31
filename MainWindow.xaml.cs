@@ -594,7 +594,7 @@ namespace information_security_2
             Array.Reverse(arr);
             return new string(arr);
         }
-        private char[] shift(char[] c, int s)
+        public static char[] shift(char[] c, int s)
         { 
             for (int i = 0; i < c.Length; i++)
                 if (!Check_Char(c[i], AllLeters))
@@ -602,7 +602,7 @@ namespace information_security_2
 
             return c;
         }
-        private int    normalize_step(int s, char c)
+        public static int    normalize_step(int s, char c)
         {
             s = ((s + AllLeters.Length * 100) % AllLeters.Length + c - AllLeters[0]) % AllLeters.Length;
             return s;
@@ -620,12 +620,12 @@ namespace information_security_2
             }
             return new string(r);
         }
-        private int normalize_step_2(int s)
+        public static int normalize_step_2(int s)
         {
             s = (s + AllLeters.Length * 100) % AllLeters.Length;
             return s;
         }
-        private string normalize_key(TextBox Text, TextBox Key)
+        public static string normalize_key(TextBox Text, TextBox Key)
         {
             string tmp = string.Empty;
             while (tmp.Length < Get_String(Text).Length)
@@ -656,11 +656,11 @@ namespace information_security_2
             // Преобразование результата обратно в двоичную строку
             return (Convert_num_str(number & ((1 << numBits) - 1))).PadLeft(numBits, '0');
         }
-        private string Get_String(TextBox tb)
+        public static string Get_String(TextBox tb)
         {
             return tb.Text;
         }
-        private bool Check_Str(string str, string Leters)
+        public static bool Check_Str(string str, string Leters)
         {
             bool err = true;
            
@@ -693,11 +693,11 @@ namespace information_security_2
             if (n == 1) return "1";
             else        return Convert_num_str(n / 2) + (n % 2);
         }
-        private int Get_Char_Number(char c, string str)
+        public static int Get_Char_Number(char c, string str)
         {
             return str.IndexOf(c);
         }
-        private bool Check_Char(char c, string Leters)
+        private static bool Check_Char(char c, string Leters)
         {
             bool err = true;
             string s = Leters;
@@ -711,7 +711,7 @@ namespace information_security_2
         {
             sender.Text = string.Empty;
         }
-        private bool Check_empty(TextBox sender)
+        public static bool Check_empty(TextBox sender)
         {
             bool err = true;
             if (sender.Text == string.Empty) { err = false; }
@@ -819,9 +819,10 @@ namespace information_security_2
             }
             return (int)result;
         }
-        public string AllLeters =    "абвгдежзийклмнопрстуфхцчшщъыьэюя";
-        public string RUSAllLeters = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
-        public string ENGAllLeters = "abcdefghijklmnopqrstuvwxyz";
+        public static string AllLeters =    "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+        public static string AllLetersBS = "абвгдежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        public static string RUSAllLeters = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+        public static string ENGAllLeters = "abcdefghijklmnopqrstuvwxyz";
 
         public void RusProbilities()
         {

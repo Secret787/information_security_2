@@ -13,6 +13,13 @@
         <TextBox x:Name="B4"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,101,0,0"    VerticalAlignment="Top" Width="185"/>
         <Button  x:Name="B5"       Content="Проверить"                          HorizontalAlignment="Left" Height="33"  Margin="10,141,0,0"     VerticalAlignment="Top" Width="190" Click="B5_Click"/>
         <TextBox x:Name="B6"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,140,0,0"    VerticalAlignment="Top" Width="185"/>
+        <Button  x:Name="B7"       Content="Преобразовать ключ"             HorizontalAlignment="Left" Height="33"  Margin="10,180,0,0"     VerticalAlignment="Top" Width="190" Click="B7_Click"/>
+        <TextBox x:Name="B8"                                                    HorizontalAlignment="Left" Height="34"  Margin="205,179,0,0"    VerticalAlignment="Top" Width="185"/>
+        <Button  x:Name="B9"       Content="Зашифровать и передать"                       HorizontalAlignment="Left" Height="33"  Margin="10,219,0,0"     VerticalAlignment="Top" Width="190" Click="B9_Click" />
+        <TextBox x:Name="B10"                                                   HorizontalAlignment="Left" Height="34"  Margin="205,218,0,0"    VerticalAlignment="Top" Width="185"/>
+        <Button  x:Name="B11"       Content="Расшифровать"                       HorizontalAlignment="Left" Height="33"  Margin="10,258,0,0"     VerticalAlignment="Top" Width="190" Click="B11_Click" />
+        <TextBox x:Name="B12"                                                   HorizontalAlignment="Left" Height="34"  Margin="205,257,0,0"    VerticalAlignment="Top" Width="185"/>
+        <TextBox x:Name="B13"                                                   HorizontalAlignment="Left" Height="34"  Margin="205,296,0,0"    VerticalAlignment="Top" Width="185"/>
 
     </Grid>
 </Window>
